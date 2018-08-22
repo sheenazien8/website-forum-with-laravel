@@ -9,6 +9,7 @@
     @endif
     <div class="col-md-12 text-center">
         <a href="{{ route('quotes.random') }}" class="btn btn-primary">Random</a>
+        <a href="{{ route('quotes.create') }}" class="btn btn-primary">Create Quotes</a>
     </div>
     <div class="row">
         @foreach ($quotes as $quote)

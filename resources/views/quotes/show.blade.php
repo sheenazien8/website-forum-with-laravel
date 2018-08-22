@@ -6,7 +6,7 @@
             <div class="jumbroton">
                 <h1 class="display-4">{{ $quote->title }}</h1>
                 <p class="lead">{{ $quote->content }}</p>
-                <span>ditulis oleh <em>{{ $quote->user->name }}</em></span>
+                <span>ditulis oleh <em><a href="{{ route('profile',$quote->user->id) }}">{{ $quote->user->name }}</a></em></span>
                 <div class="col-md-12">
                     <a href="/quotes" class="btn btn-primary">balik kedaftar</a>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}

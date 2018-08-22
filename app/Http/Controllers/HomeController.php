@@ -26,11 +26,15 @@ class HomeController extends Controller
     {
         return view('home');
     }
-    public function profile()
+    public function profile($id = null)
     {
-        /*ini hanya untuk profile yang sudah login*/
-        $user = User::find(Auth::user()->id);
-
+        if ($id == null) {
+            /*ini hanya untuk profile yang sudah login*/
+            $user = User::find(Auth::user()->id);
+        }else {
+            $user = User::find($id);
+        }
+        
         return view('profile',compact('user'));
     }
 }
