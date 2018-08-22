@@ -1,10 +1,13 @@
 <?php
 
+Route::get('/profile/{id?}', 'HomeController@profile')->name('profile');
 Route::group(['middleware' => "auth"], function() {
     Route::resource('quotes','QuoteController',['except' => ['index', 'show']]);
     Route::post('quotes-comment/{id}',"CommentController@store")->name('comments.store');
+    Route::get('quotes-comment/{id}/edit',"CommentController@edit")->name('comments.edit');
+    Route::patch('quotes-comment/{id}/update',"CommentController@update")->name('comments.update');
+    Route::delete('quotes-comment/{id}/destroy',"CommentController@destroy")->name('comments.destroy');
 });
-Route::get('/profile/{id?}', 'HomeController@profile')->name('profile');
 Auth::routes();
 Route::get('/','QuoteController@index');
 Route::get('quotes/random', 'QuoteController@random')->name('quotes.random');

@@ -8,11 +8,11 @@
                 <h1 class="display-4">{{ $quote->title }}</h1>
                 <p class="lead">{{ $quote->content }}</p>
                 <span>ditulis oleh <em><a href="{{ route('profile',$quote->user->id) }}">{{ $quote->user->name }}</a></em></span>
-                <div class="col-md-12">
-                    <a href="/quotes" class="btn btn-primary">balik kedaftar</a>
+                <div class="row col-md-12">
+                    <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
                     @if ($quote->isOwner())
-                        <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="col-md-2">
+                        <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="mr-2">
                             @csrf
                             {{method_field('DELETE')}}
                             <button type="submit" class="btn btn-danger" >Delete</button>
@@ -25,9 +25,23 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            @if (session('msg'))
+                <div class="alert alert-success">
+                    <p>{{ session('msg') }}</p>
+                </div>
+            @endif
             @foreach ($quote->comments as $comment)
                 <p>ditulis oleh <em><a href="{{ route('profile',$comment->user->id) }}">{{ $comment->user->name }}</a></em></p>
                 <p>{{ $comment->comment }}</p>
+                @if ($comment->isOwner())
+                    <form action="{{ route('comments.destroy',$comment->id) }}" method="POST">
+                        @csrf
+                        {{method_field('DELETE')}}
+                        <button type="submit" class="btn btn-danger" >Delete</button>
+                    </form>
+                    <br>
+                    <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
+                @endif
                 <hr>
             @endforeach
             <form action="{{ route('comments.store', $quote->id) }}" method="POST">
