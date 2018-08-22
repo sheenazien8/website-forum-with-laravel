@@ -13,7 +13,7 @@ class CreateQuotesCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('quoteComments', function (Blueprint $table) {
+        Schema::create('quote_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('comment');
             $table->integer('quote_id')->unsigned();
@@ -31,6 +31,6 @@ class CreateQuotesCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quoteComments');
+        Schema::dropIfExists('quote_comments');
     }
 }
