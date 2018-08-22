@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Quote::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(QuoteComment::class);
+    }
 }
