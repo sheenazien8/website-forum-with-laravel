@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,5 +25,12 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    public function profile()
+    {
+        /*ini hanya untuk profile yang sudah login*/
+        $user = User::find(Auth::user()->id);
+
+        return view('profile',compact('user'));
     }
 }
