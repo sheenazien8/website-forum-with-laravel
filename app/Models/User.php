@@ -1,7 +1,7 @@
 <?php
 
-namespace App;
-
+namespace App\Models;
+use App\Models\Quote;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
 }
