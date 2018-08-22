@@ -7,6 +7,9 @@
             <p>{{ session('msg') }}</p>
         </div>
     @endif
+    <div class="col-md-12 text-center">
+        <a href="{{ route('quotes.random') }}" class="btn btn-primary">Random</a>
+    </div>
     <div class="row">
         @foreach ($quotes as $quote)
             <div class="col-md-4">

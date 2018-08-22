@@ -15,7 +15,7 @@
                     <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="col-md-2">
                         @csrf
                         {{method_field('DELETE')}}
-                        <button type="submit" class="btn btn-danger btn-block" >Delete</button>
+                        <button type="submit" class="btn btn-danger" >Delete</button>
                     </form>
                     <a href="{{ route('quotes.edit',$quote->id)}}" class="btn btn-warning">edit</a>
                 @endif

@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','QuoteController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('quotes/random', 'QuoteController@random')->name('quotes.random');
 
 Route::resource('quotes','QuoteController',['only' => 'index', 'show']);
 Route::group(['middleware' => "auth"], function() {

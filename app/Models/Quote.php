@@ -16,6 +16,9 @@ class Quote extends Model
 
     public function isOwner()
     {
+    	if (Auth::guest()) {
+    		return false;
+    	}
         return Auth::user()->id == $this->user->id;
     }
 }

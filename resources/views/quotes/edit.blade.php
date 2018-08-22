@@ -21,7 +21,7 @@
         </div>
         <br>
         <div class="form-group">
-            <button type="submit" class="btn btn-default" >Edit</button>
+            <button type="submit" class="btn btn-default btn-block" >Edit</button>
         </div>
     </form>
 </div>

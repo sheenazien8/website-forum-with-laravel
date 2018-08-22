@@ -131,4 +131,10 @@ class QuoteController extends Controller
 
         return redirect('quotes')->with('msg','sudah berhasil menghapus');
     }
+
+    public function random()
+    {
+        $quote = Quote::inRandomOrder()->first();
+        return view("quotes.show", compact('quote'));
+    }
 }
