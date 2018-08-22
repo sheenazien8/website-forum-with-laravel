@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quote;
+use Illuminate\Support\Facades\Auth;
+
+
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -34,7 +38,17 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $this->validate($request, [
+                "title" => "required|min:3",
+                "content" => "required|min:5"
+        ]);
+
+        $quotes = Quote::create([
+            "title" => $request->title,
+            "slug" => str_slug($request->title,"-")."-".time(),
+            "content" => $request->content,
+            "user_id" => Auth::user()->id
+        ]);
     }
 
     /**
