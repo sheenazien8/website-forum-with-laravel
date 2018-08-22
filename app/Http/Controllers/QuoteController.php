@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Quote;
 use Illuminate\Support\Facades\Auth;
 
-
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -63,12 +62,18 @@ class QuoteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $quote = Quote::where('slug', $slug)->first();
+
+        if (empty($quote)) {
+            // die('mati');
+            abort("404");
+        }
+        return view("quotes.show", compact('quote'));
     }
 
     /**
@@ -79,7 +84,12 @@ class QuoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $quote = Quote::find($id);
+        if ($quote->isOwner()) {
+            return view("quotes.edit", compact('quote'));
+        }else {
+            die('maaf sayang sekali');
+        }
     }
 
     /**
@@ -91,7 +101,17 @@ class QuoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $quote = Quote::find($id);
+        if ($quote->isOwner()) {
+            $quote->update([
+                "title" => $request->title,
+                "content" => $request->content,
+            ]);
+        }else {
+            die('maaf anda tidak punya hak untuk mengedit kutipan ini');
+        }
+
+        return redirect('quotes')->with('msg','sudah berhasil update kutipan dengan judul yang baru yaitu ' . $request->title);
     }
 
     /**
@@ -102,6 +122,13 @@ class QuoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $quote = Quote::find($id);
+        if ($quote->isOwner()) {
+            $quote->delete();
+        }else {
+            die('maaf anda tidak punya hak untuk mengedit kutipan ini');
+        }
+
+        return redirect('quotes')->with('msg','sudah berhasil menghapus');
     }
 }
