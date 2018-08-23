@@ -17,6 +17,12 @@
                 <div class="thumnail">
                     <div class="caption">
                         <div>{{ $quote->title }}</div>
+                        <p class="text-primary">
+                            tag:
+                            @foreach ($quote->tags as $tag)
+                                #{{ $tag->tag }}
+                            @endforeach
+                        </p>
                         <p><a href="/quotes/{{ $quote->slug }}" class="btn btn-warning">Lihat Quotes</a></p>
                     </div>
                 </div>

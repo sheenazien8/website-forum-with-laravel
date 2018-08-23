@@ -19,6 +19,11 @@ class Quote extends Model
         return $this->hasMany(QuoteComment::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
     public function isOwner()
     {
     	if (Auth::guest()) {

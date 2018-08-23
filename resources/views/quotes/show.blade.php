@@ -8,6 +8,11 @@
                 <h1 class="display-4">{{ $quote->title }}</h1>
                 <p class="lead">{{ $quote->content }}</p>
                 <span>ditulis oleh <em><a href="{{ route('profile',$quote->user->id) }}">{{ $quote->user->name }}</a></em></span>
+                <p class="lead text-primary">
+                    @foreach ($quote->tags as $tag)
+                        #{{ $tag->tag }}
+                    @endforeach
+                </p>
                 <div class="row col-md-12">
                     <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
@@ -31,17 +36,24 @@
                 </div>
             @endif
             @foreach ($quote->comments as $comment)
-                <p>ditulis oleh <em><a href="{{ route('profile',$comment->user->id) }}">{{ $comment->user->name }}</a></em></p>
-                <p>{{ $comment->comment }}</p>
-                @if ($comment->isOwner())
-                    <form action="{{ route('comments.destroy',$comment->id) }}" method="POST">
-                        @csrf
-                        {{method_field('DELETE')}}
-                        <button type="submit" class="btn btn-danger" >Delete</button>
-                    </form>
-                    <br>
-                    <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
-                @endif
+            <div class="row">
+                <div class="col-md-6">
+                    <p>ditulis oleh <em><a href="{{ route('profile',$comment->user->id) }}">{{ $comment->user->name }}</a></em></p>
+                    <p>{{ $comment->comment }}</p>
+                </div>
+                    @if ($comment->isOwner())
+                    <div class="col-md-2">
+                        <form action="{{ route('comments.destroy',$comment->id) }}" method="POST">
+                            @csrf
+                            {{method_field('DELETE')}}
+                            <button type="submit" class="btn btn-danger" >Delete</button>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
+                    </div>
+                    @endif
+            </div>
                 <hr>
             @endforeach
             <form action="{{ route('comments.store', $quote->id) }}" method="POST">

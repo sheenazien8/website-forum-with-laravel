@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quote;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        $quotes = Quote::all();
+        $quotes = Quote::with('tags')->get();
         return view('quotes.index',compact('quotes'));
     }
 
@@ -27,7 +28,8 @@ class QuoteController extends Controller
      */
     public function create()
     {
-        return view('quotes.create');
+        $tags = Tag::all();
+        return view('quotes.create', compact('tags'));
     }
 
     /**
@@ -42,21 +44,26 @@ class QuoteController extends Controller
                 "title" => "required|min:3",
                 "content" => "required|min:5"
         ]);
-
+        $request->tags = array_diff($request->tags, [0]);
+        // if (empty($request->tags)) {
+        //     return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
+        // }
         $slug = str_slug($request->title,"-");
 
         if (Quote::where('slug', $slug)->first() != null) {
             $slug = $slug . "-".time();
         }
 
-        $quotes = Quote::create([
+        $quote = Quote::create([
             "title" => $request->title,
             "slug" => $slug,
             "content" => $request->content,
             "user_id" => Auth::user()->id
         ]);
-
-        return redirect('quotes')->with('msg','sudah berhasil membuat kutipan dengan judul' . $request->title);
+        
+        $quote->tags()->attach($request->tags);
+        
+        return redirect('quotes')->with('msg','sudah berhasil membuat kutipan dengan judul ' . $request->title);
     }
 
     /**
@@ -67,7 +74,7 @@ class QuoteController extends Controller
      */
     public function show($slug)
     {
-        $quote = Quote::where('slug', $slug)->first();
+        $quote = Quote::with('comments.user')->where('slug', $slug)->first();
 
         if (empty($quote)) {
             // die('mati');
