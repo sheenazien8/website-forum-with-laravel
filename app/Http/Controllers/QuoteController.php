@@ -45,9 +45,9 @@ class QuoteController extends Controller
                 "content" => "required|min:5"
         ]);
         $request->tags = array_diff($request->tags, [0]);
-        // if (empty($request->tags)) {
-        //     return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
-        // }
+        if (empty($request->tags)) {
+            return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
+        }
         $slug = str_slug($request->title,"-");
 
         if (Quote::where('slug', $slug)->first() != null) {
@@ -92,8 +92,10 @@ class QuoteController extends Controller
     public function edit($id)
     {
         $quote = Quote::find($id);
+        $tags = Tag::all();
+        // dd($tags);
         if ($quote->isOwner()) {
-            return view("quotes.edit", compact('quote'));
+            return view("quotes.edit", compact('quote', 'tags'));
         }else {
             die('maaf sayang sekali');
         }
@@ -109,6 +111,14 @@ class QuoteController extends Controller
     public function update(Request $request, $id)
     {
         $quote = Quote::find($id);
+        $this->validate($request, [
+                "title" => "required|min:3",
+                "content" => "required|min:5"
+        ]);
+        $request->tags = array_diff($request->tags, [0]);
+        if (empty($request->tags)) {
+            return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
+        }
         if ($quote->isOwner()) {
             $quote->update([
                 "title" => $request->title,
@@ -118,6 +128,7 @@ class QuoteController extends Controller
             die('maaf anda tidak punya hak untuk mengedit kutipan ini');
         }
 
+        $quote->tags()->sync($request->tags);
         return redirect('quotes')->with('msg','sudah berhasil update kutipan dengan judul yang baru yaitu ' . $request->title);
     }
 

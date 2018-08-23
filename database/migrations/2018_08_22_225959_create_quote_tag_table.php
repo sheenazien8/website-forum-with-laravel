@@ -18,8 +18,8 @@ class CreateQuoteTagTable extends Migration
             $table->integer('quote_id')->unsigned();
             $table->integer('tag_id')->unsigned();
             $table->timestamps();
-            $table->foreign('tag_id')->references('id')->on('tags');
-            $table->foreign('quote_id')->references('id')->on('quotes');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateQuoteTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quote_table');
+        Schema::dropIfExists('quote_tag');
     }
 }

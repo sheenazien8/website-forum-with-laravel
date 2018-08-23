@@ -25,7 +25,7 @@
                 <button class="btn btn-default" id="add_tag">Add Tag</button>
                 <div class="col-md-12">
                     <div class="row" id="wrap">
-                        <select class="form-control col-md-2" name="tags[]" id="tag_select">
+                        <select class="form-control col-md-2 {{ session('tag_error') ? 'is-invalid' : '' }}" name="tags[]" id="tag_select">
                             <option value="0">Tidak Ada</option>
                             @foreach ($tags as $tag)
                                 <option value="{{ $tag->id }}">{{ $tag->tag }}</option>
@@ -33,22 +33,11 @@
                         </select>
                     </div>
                 </div>
+                @if (session('tag_error'))
+                    <span class="text-danger">{{ session('tag_error') }}</span>
+                @endif
             </div>
-
-            <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
-            <script>
-                $(document).ready(function() {
-                    var counter = 0;
-                    $("#add_tag").on('click', function(event) {
-                        event.preventDefault();
-                        /* Act on the event */
-                        counter++
-                        if (counter < 3) {
-                            $("#tag_select").clone().appendTo("#wrap")
-                        }
-                    });
-                });
-            </script>
+            <script src="{{ asset('js/tag.js') }}" ></script>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block" >Save</button>

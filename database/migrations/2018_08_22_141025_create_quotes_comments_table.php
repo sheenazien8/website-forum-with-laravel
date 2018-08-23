@@ -19,8 +19,8 @@ class CreateQuotesCommentsTable extends Migration
             $table->integer('quote_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('quote_id')->references('id')->on('quotes');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('quote_id')->references('id')->on('quotes')->onDelete('cascade');
         });
     }
 
