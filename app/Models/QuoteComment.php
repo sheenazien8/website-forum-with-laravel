@@ -16,6 +16,11 @@ class QuoteComment extends Model
     {
     	return $this->belongsTo(Quote::class);
     }
+
+    public function likes()
+    {
+        return $this->morphToMany(Like::class, 'likeable');
+    }
     public function isOwner()
     {
     	if (Auth::guest()) {

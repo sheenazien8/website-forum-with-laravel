@@ -15,6 +15,8 @@
                 </p>
                 <div class="row col-md-12">
                     <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
+                    <div class="like-wrapper"></div>
+                    <div class="btn btn-primary btn-like mr-2" data-type="1" data-model-id="{{ $quote->id }}">Like 0</div>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
                     @if ($quote->isOwner())
                         <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="mr-2">
@@ -52,6 +54,9 @@
                     <div class="col-md-2">
                         <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
                     </div>
+                    <div class="col-md-2">
+                        <div data-type="2" data-model-id="{{ $comment->id }}" class="btn btn-primary btn-like">like 0</div>
+                    </div>
                     @endif
             </div>
                 <hr>
@@ -73,4 +78,19 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).on('click touchStar', '.btn-like', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var _this = $(this)
+
+            var _url = '/like/'+_this.attr('data-type')+"/"+_this.attr('data-model-id');
+            $.get(_url, function(data) {
+                console.log(data)
+            });
+        });
+    </script>
 @endsection
