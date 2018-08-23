@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/profile/{id?}', 'HomeController@profile')->name('profile');
+Route::get('/quotes/filter/{id}', 'QuoteController@filtag')->name('quotes.filtag');
 Route::group(['middleware' => "auth"], function() {
     Route::resource('quotes','QuoteController',['except' => ['index', 'show']]);
     Route::post('quotes-comment/{id}',"CommentController@store")->name('comments.store');

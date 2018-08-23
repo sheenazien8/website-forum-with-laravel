@@ -7,16 +7,31 @@
             <p>{{ session('msg') }}</p>
         </div>
     @endif
-    <div class="col-md-12 text-center">
-        <a href="{{ route('quotes.random') }}" class="btn btn-primary">Random</a>
-        <a href="{{ route('quotes.create') }}" class="btn btn-primary">Create Quotes</a>
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <form class="form-inline" action="{{ route('quotes.index') }}">
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            Filter Tag:
+            @foreach ($tags as $tag)
+                <a href="{{ route('quotes.filtag', $tag->tag) }}">{{ $tag->tag }}/</a>
+            @endforeach
+        </div>
+        <div class="col-md-6">
+            <a href="{{ route('quotes.index') }}" class="btn btn-primary mr-2">All</a>
+            <a href="{{ route('quotes.random') }}" class="btn btn-primary mr-2">Random</a>
+            <a href="{{ route('quotes.create') }}" class="btn btn-primary">Create Quotes</a>
+        </div>
     </div>
     <div class="row">
         @foreach ($quotes as $quote)
             <div class="col-md-4">
-                <div class="thumnail">
-                    <div class="caption">
+                <div class="card">
+                    <div class="card-header">
                         <div>{{ $quote->title }}</div>
+                    </div>
+                    <div class="card-body">
                         <p class="text-primary">
                             tag:
                             @foreach ($quote->tags as $tag)

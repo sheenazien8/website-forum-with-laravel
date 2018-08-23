@@ -15,10 +15,16 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $quotes = Quote::with('tags')->get();
-        return view('quotes.index',compact('quotes'));
+        $tags = Tag::all();
+        $requestSearch = urlencode($request->input('search'));
+        if (!empty($requestSearch)) {
+            $quotes = Quote::with('tags')->where('title', 'like', '%'.$requestSearch.'%')->get();
+        }else {
+            $quotes = Quote::with('tags')->get();
+        }
+        return view('quotes.index',compact('quotes', 'tags'));
     }
 
     /**
@@ -154,5 +160,15 @@ class QuoteController extends Controller
     {
         $quote = Quote::inRandomOrder()->first();
         return view("quotes.show", compact('quote'));
+    }
+
+    public function filtag($tag)
+    {
+        $tags = Tag::all();
+        $quotes = Quote::with('tags')->whereHas('tags',function ($query) use ($tag)
+        {
+            $query->where('tag',$tag);
+        })->get();
+        return view('quotes.index', compact('quotes', 'tags'));
     }
 }
