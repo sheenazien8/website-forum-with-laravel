@@ -26,7 +26,12 @@ class Quote extends Model
 
     public function likes()
     {
-        return $this->morphToMany(Like::class, 'likeable');
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function isLiked()
+    {
+        return $this->likes->where('user_id',Auth::user()->id)->count();
     }
 
     public function isOwner()

@@ -15,8 +15,10 @@
                 </p>
                 <div class="row col-md-12">
                     <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
-                    <div class="like-wrapper"></div>
-                    <div class="btn btn-primary btn-like mr-2" data-type="1" data-model-id="{{ $quote->id }}">Like 0</div>
+                    <div class="like-wrapper">
+                        <div class="btn btn-light btn-like mr-2" data-type="1" data-model-id="{{ $quote->id }}">Like</div>
+                        <span class="btn mr-2" id="total_like">0</span>
+                    </div>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
                     @if ($quote->isOwner())
                         <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="mr-2">
@@ -48,16 +50,21 @@
                         <form action="{{ route('comments.destroy',$comment->id) }}" method="POST">
                             @csrf
                             {{method_field('DELETE')}}
-                            <button type="submit" class="btn btn-danger" >Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                     <div class="col-md-2">
                         <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
                     </div>
+                    @else
                     <div class="col-md-2">
-                        <div data-type="2" data-model-id="{{ $comment->id }}" class="btn btn-primary btn-like">like 0</div>
+                        <div class="like-wrapper">
+                            <div data-type="2" data-model-id="{{ $comment->id }}" class="btn btn-light btn-like">like</div>
+                            <span class="btn" id="total_like">0</span>
+                        </div>
                     </div>
                     @endif
+
             </div>
                 <hr>
             @endforeach
@@ -88,8 +95,11 @@
             var _this = $(this)
 
             var _url = '/like/'+_this.attr('data-type')+"/"+_this.attr('data-model-id');
+            console.log(_url)
             $.get(_url, function(data) {
-                console.log(data)
+                _this.removeClass('btn-light').addClass('btn-danger').html('Unlike')
+                var likeNumber = _this.parents('.like-wrapper').find('#total_like')
+                likeNumber.html(parseInt(likeNumber.html()) + 1)
             });
         });
     </script>
