@@ -16,8 +16,10 @@
                 <div class="row col-md-12">
                     <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
                     <div class="like-wrapper">
-                        <div class="btn btn-light btn-like mr-2" data-type="1" data-model-id="{{ $quote->id }}">Like</div>
-                        <span class="btn mr-2" id="total_like">0</span>
+                    @if (!$quote->isOwner())
+                        <div class="btn mr-2 {{ $quote->isLiked() ? 'btn-danger btn-unlike' : 'btn-light btn-like' }}" data-type="1" data-model-id="{{ $quote->id }}">{{ $quote->isLiked() ? 'Unlike':'Like' }}</div>
+                    @endif
+                        <span class="btn mr-2" id="total_like">{{ $quote->likes->count() }} Like</span>
                     </div>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
                     @if ($quote->isOwner())
@@ -59,11 +61,12 @@
                     @else
                     <div class="col-md-2">
                         <div class="like-wrapper">
-                            <div data-type="2" data-model-id="{{ $comment->id }}" class="btn btn-light btn-like">like</div>
-                            <span class="btn" id="total_like">0</span>
+                            <div data-type="2" data-model-id="{{ $comment->id }}" class="btn {{ $comment->isLiked() ? 'btn-danger btn-unlike' : 'btn-light btn-like' }}">{{ $comment->isLiked() ? 'Unlike' : 'Like' }}</div>
+					@endif
+                    
+                            <span class="btn" id="total_like">{{ $comment->likes->count() }} Like</span>
                         </div>
                     </div>
-                    @endif
 
             </div>
                 <hr>
@@ -97,9 +100,22 @@
             var _url = '/like/'+_this.attr('data-type')+"/"+_this.attr('data-model-id');
             console.log(_url)
             $.get(_url, function(data) {
-                _this.removeClass('btn-light').addClass('btn-danger').html('Unlike')
+                _this.removeClass('btn-light btn-like').addClass('btn-danger btn-unlike').html('Unlike')
                 var likeNumber = _this.parents('.like-wrapper').find('#total_like')
-                likeNumber.html(parseInt(likeNumber.html()) + 1)
+                likeNumber.html(parseInt(likeNumber.html()) + 1 +" like")
+            });
+        });
+        $(document).on('click touchStar', '.btn-unlike', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            var _this = $(this)
+
+            var _url = '/unlike/'+_this.attr('data-type')+"/"+_this.attr('data-model-id');
+            console.log(_url)
+            $.get(_url, function(data) {
+                _this.removeClass('btn-danger btn-unlike' ).addClass('btn-light btn-like').html('like')
+                var likeNumber = _this.parents('.like-wrapper').find('#total_like')
+                likeNumber.html(parseInt(likeNumber.html()) - 1 +" like")
             });
         });
     </script>

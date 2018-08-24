@@ -6,6 +6,8 @@ use Auth;
 use Illuminate\Database\Eloquent\Model;
 class QuoteComment extends Model
 {
+    use LikesTrait;
+    
 	protected $guarded = [];
     public function user()
     {
@@ -17,15 +19,6 @@ class QuoteComment extends Model
     	return $this->belongsTo(Quote::class);
     }
 
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function isLiked()
-    {   
-        return $this->likes->where('user_id',Auth::user()->id)->count();
-    }
     public function isOwner()
     {
     	if (Auth::guest()) {

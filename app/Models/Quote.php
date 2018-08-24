@@ -7,6 +7,7 @@ use Auth;
 
 class Quote extends Model
 {
+    use LikesTrait;
 	protected $guarded = [];
 
     public function user()
@@ -22,16 +23,6 @@ class Quote extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
-    }
-
-    public function likes()
-    {
-        return $this->morphMany(Like::class, 'likeable');
-    }
-
-    public function isLiked()
-    {
-        return $this->likes->where('user_id',Auth::user()->id)->count();
     }
 
     public function isOwner()
