@@ -21,24 +21,26 @@
         <div class="col-md-6">
             <a href="{{ route('quotes.index') }}" class="btn btn-primary mr-2">All</a>
             <a href="{{ route('quotes.random') }}" class="btn btn-primary mr-2">Random</a>
-            <a href="{{ route('quotes.create') }}" class="btn btn-primary">Create Quotes</a>
+            <a href="{{ route('quotes.create') }}" class="btn btn-primary">Create Question</a>
         </div>
     </div>
     <div class="row">
         @foreach ($quotes as $quote)
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div>{{ $quote->title }}</div>
+                        <h3>{{ $quote->title }}</h3>
                     </div>
                     <div class="card-body">
+                        <p>{{ substr($quote->content, 0, 200) }}<a href="/quotes/{{ $quote->slug }}">readmore</a></p>
+                    </div>
+                    <div class="card-footer">
                         <p class="text-primary">
                             tag:
                             @foreach ($quote->tags as $tag)
                                 #{{ $tag->tag }}
                             @endforeach
                         </p>
-                        <p><a href="/quotes/{{ $quote->slug }}" class="btn btn-warning">Lihat Quotes</a></p>
                     </div>
                 </div>
             </div>

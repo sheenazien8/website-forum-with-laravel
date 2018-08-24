@@ -21,6 +21,14 @@ class CommentController extends Controller
             "quote_id" => $id,
             "user_id" => Auth::user()->id
         ]);
+        /*jika user_id quote !=  yang sedang login */
+        if ($quote->user->id != Auth::user()->id) {
+            $notification = Notification::create([
+                'subject' => 'ada komentar bro',
+                'user_id' => $quote->user->id,
+                'quote_id' => $id,
+            ]);   
+        }
         return redirect('/quotes/'.$quote->slug)->with('msg','sudah berhasil komentar');
     }
 
