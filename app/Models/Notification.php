@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
 	protected $guarded = ['id'];
+	
     public function user()
     {
     	return $this->belongsTo(User::class);
+    }
+
+    public function quote()
+    {
+    	return $this->belongsTo(Quote::class);
     }
 }

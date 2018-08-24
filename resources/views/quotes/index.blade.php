@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         @foreach ($quotes as $quote)
-            <div class="col-md-12">
+            <div class="col-md-12 mb-4">
                 <div class="card">
                     <div class="card-header">
                         <h3>{{ $quote->title }}</h3>

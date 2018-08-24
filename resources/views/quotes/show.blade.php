@@ -41,8 +41,8 @@
                     <p>{{ session('msg') }}</p>
                 </div>
             @endif
-            @foreach ($quote->comments as $comment)
             <div class="row">
+            @foreach ($quote->comments as $comment)
                 <div class="col-md-6">
                     <p>ditulis oleh <em><a href="{{ route('profile',$comment->user->id) }}">{{ $comment->user->name }}</a></em></p>
                     <p>{{ $comment->comment }}</p>
@@ -58,29 +58,27 @@
                     <div class="col-md-2">
                         <a href="{{ route('comments.edit',$comment->id)}}" class="btn btn-warning">edit</a>
                     </div>
-                    @else
+					@endif
                     <div class="col-md-2">
                         <div class="like-wrapper">
-                            <div data-type="2" data-model-id="{{ $comment->id }}" class="btn {{ $comment->isLiked() ? 'btn-danger btn-unlike' : 'btn-light btn-like' }}">{{ $comment->isLiked() ? 'Unlike' : 'Like' }}</div>
-					@endif
-                    
+                            @if (!$comment->isOwner())
+                                <div data-type="2" data-model-id="{{ $comment->id }}" class="btn {{ $comment->isLiked() ? 'btn-danger btn-unlike' : 'btn-light btn-like' }}">{{ $comment->isLiked() ? 'Unlike' : 'Like' }}
+                                </div>
+                            @endif
                             <span class="btn" id="total_like">{{ $comment->likes->count() }} Like</span>
                         </div>
                     </div>
-
-            </div>
-                <hr>
             @endforeach
+            </div>
             <form action="{{ route('comments.store', $quote->id) }}" method="POST">
                 @csrf
-                <div class="form-grup">
-                    <label class="content">Isi Komentar</label>
+                <div class="form-group">
+                    <label class="content">Komentar</label>
                     <textarea name="comment" id="" class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}">{{ old('comment') }}</textarea>
                     @if ($errors->has('comment'))
                         <span class="text-danger">{{ $errors->first('comment') }}</span>
                     @endif
                 </div>
-                <br>
                 <div class="form-group">
                     <button type="submit" class="btn btn-default" >Comment</button>
                 </div>

@@ -49,6 +49,11 @@
                           </li>
                       @else
                           <li class="nav-item">
+                              <a class="nav-link" href="{{ route('notification') }}">
+                                Notification : {{ Auth::user()->notifications->where('seen' , 0)->count() }}
+                              </a>
+                          </li>
+                          <li class="nav-item">
                               <a class="nav-link" href="{{ route('profile') }}">Profile</a>
                           </li>
                           <li class="nav-item dropdown">

@@ -10,6 +10,7 @@ Route::group(['middleware' => "auth"], function() {
     Route::delete('quotes-comment/{id}/destroy',"CommentController@destroy")->name('comments.destroy');
     Route::get('/like/{type}/{model}','LikeController@like')->name('like');
     Route::get('/unlike/{type}/{model}','LikeController@unlike')->name('unlike');
+    Route::get('/notifications','HomeController@getNotif')->name('notification');
 });
 Auth::routes();
 Route::get('/','QuoteController@index');

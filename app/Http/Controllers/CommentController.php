@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\QuoteComment;
 use App\Models\Quote;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,8 @@ class CommentController extends Controller
         ]);
         /*jika user_id quote !=  yang sedang login */
         if ($quote->user->id != Auth::user()->id) {
-            $notification = Notification::create([
-                'subject' => 'ada komentar bro',
+            Notification::create([
+                'subject' => 'Ada komentar bro dari ' . Auth::user()->name,
                 'user_id' => $quote->user->id,
                 'quote_id' => $id,
             ]);   
