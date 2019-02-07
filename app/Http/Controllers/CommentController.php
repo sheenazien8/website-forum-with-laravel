@@ -30,7 +30,7 @@ class CommentController extends Controller
                 'quote_id' => $id,
             ]);   
         }
-        return redirect('/quotes/'.$quote->slug)->with('msg','sudah berhasil komentar');
+        return redirect('/forum/'.$quote->slug)->with('msg','sudah berhasil komentar');
     }
 
     public function destroy($id)
@@ -64,8 +64,7 @@ class CommentController extends Controller
         }else {
             die('maaf anda tidak punya hak untuk mengedit kutipan ini');
         }
-
-        return redirect('/quotes/'. $comment->quote->slug)->with('msg','sudah berhasil update komentar');
+        return redirect('/forum/'. $comment->quote->slug)->with('msg','sudah berhasil update komentar');
     }
    
 }

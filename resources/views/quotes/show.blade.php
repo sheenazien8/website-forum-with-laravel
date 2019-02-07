@@ -14,7 +14,7 @@
                     @endforeach
                 </p>
                 <div class="row col-md-12">
-                    <a href="/quotes" class="btn btn-primary mr-2">balik kedaftar</a>
+                    <a href="/forum" class="btn btn-primary mr-2">balik kedaftar</a>
                     <div class="like-wrapper">
                     @if (!$quote->isOwner())
                         <div class="btn mr-2 {{ $quote->isLiked() ? 'btn-danger btn-unlike' : 'btn-light btn-like' }}" data-type="1" data-model-id="{{ $quote->id }}">{{ $quote->isLiked() ? 'Unlike':'Like' }}</div>
@@ -23,12 +23,12 @@
                     </div>
                     {{-- Cek apakah user yang melihat itu user yang membuat id ini? --}}
                     @if ($quote->isOwner())
-                        <form action="{{ route('quotes.destroy',$quote->id) }}" method="POST" class="mr-2">
+                        <form action="{{ route('forum.destroy',$quote->id) }}" method="POST" class="mr-2">
                             @csrf
                             {{method_field('DELETE')}}
                             <button type="submit" class="btn btn-danger" >Delete</button>
                         </form>
-                        <a href="{{ route('quotes.edit',$quote->id)}}" class="btn btn-warning">edit</a>
+                        <a href="{{ route('forum.edit',$quote->id)}}" class="btn btn-warning">edit</a>
                     @endif
                 </div>
             </div>

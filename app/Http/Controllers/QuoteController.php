@@ -69,7 +69,11 @@ class QuoteController extends Controller
         
         $quote->tags()->attach($request->tags);
         
-        return redirect('quotes')->with('msg','sudah berhasil membuat kutipan dengan judul ' . $request->title);
+        return redirect('forum')->with('flash_notification',[
+            'level' => 'success',
+            'message' => 'Berhasil menyimpan nama penulis dengan nama ' . $request->title,
+        ]);
+
     }
 
     /**
@@ -80,7 +84,7 @@ class QuoteController extends Controller
      */
     public function show($slug)
     {
-        $quote = Quote::with('comments.user')->where('slug', $slug)->first();
+        $quote = Quote::with('comments.user','comments.likes')->where('slug', $slug)->first();
 
         if (empty($quote)) {
             // die('mati');
@@ -135,7 +139,7 @@ class QuoteController extends Controller
         }
 
         $quote->tags()->sync($request->tags);
-        return redirect('quotes')->with('msg','sudah berhasil update kutipan dengan judul yang baru yaitu ' . $request->title);
+        return redirect('forum')->with('msg','sudah berhasil update kutipan dengan judul yang baru yaitu ' . $request->title);
     }
 
     /**
@@ -153,7 +157,7 @@ class QuoteController extends Controller
             die('maaf anda tidak punya hak untuk mengedit kutipan ini');
         }
 
-        return redirect('quotes')->with('msg','sudah berhasil menghapus');
+        return redirect('forum')->with('msg','sudah berhasil menghapus');
     }
 
     public function random()
@@ -165,7 +169,7 @@ class QuoteController extends Controller
     public function filtag($tag)
     {
         $tags = Tag::all();
-        $quotes = Quote::with('tags')->whereHas('tags',function ($query) use ($tag)
+        $quotes = Quote::with('tags')->whereHas('tags',function($query) use ($tag)
         {
             $query->where('tag',$tag);
         })->get();

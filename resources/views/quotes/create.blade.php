@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('quotes.store') }}" method="POST">
+    <form action="{{ route('forum.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label class="title">Judul</label>

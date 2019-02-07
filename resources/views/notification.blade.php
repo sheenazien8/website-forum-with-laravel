@@ -8,7 +8,7 @@
             <h3>List Forum </h3>
             <ul class="list-group">
                 @foreach ($notifications as $notif)
-                    <li class="list-group-item"><a href="{{ route('quotes.show', $notif->quote->slug) }}">{{ $notif->subject." di ".$notif->quote->title }}</a></li>
+                    <li class="list-group-item"><a href="{{ route('forum.show', $notif->quote->slug) }}">{{ $notif->subject." di ".$notif->quote->title }}</a></li>
                 @endforeach
             </ul>
         </div>
