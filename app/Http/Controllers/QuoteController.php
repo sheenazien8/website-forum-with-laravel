@@ -50,10 +50,10 @@ class QuoteController extends Controller
                 "title" => "required|min:3",
                 "content" => "required|min:5"
         ]);
-        $request->tags = array_diff($request->tags, [0]);
-        if (empty($request->tags)) {
-            return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
-        }
+//        $request->tags = array_diff($request->tags, [0]);
+//        if (empty($request->tags)) {
+//            return redirect()->back()->with('tag_error', 'tag nggak boleh kosong');
+//        }
         $slug = str_slug($request->title,"-");
 
         if (Quote::where('slug', $slug)->first() != null) {

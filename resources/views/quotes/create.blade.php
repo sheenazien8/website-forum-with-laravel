@@ -24,14 +24,14 @@
                 <label for="">Tag (maksimal 3)</label>
                 <button class="btn btn-default" id="add_tag">Add Tag</button>
                 <div class="col-md-12">
-                    <div class="row" id="wrap">
-                        <select class="form-control col-md-2 {{ session('tag_error') ? 'is-invalid' : '' }}" name="tags[]" id="tag_select">
-                            <option value="0">Tidak Ada</option>
-                            @foreach ($tags as $tag)
-                                <option value="{{ $tag->id }}">{{ $tag->tag }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    {{--<div class="row" id="wrap">--}}
+                        {{--<select class="form-control col-md-2 {{ session('tag_error') ? 'is-invalid' : '' }}" name="tags[]" id="tag_select">--}}
+                            {{--<option value="0">Tidak Ada</option>--}}
+                            {{--@foreach ($tags as $tag)--}}
+                                {{--<option value="{{ $tag->id }}">{{ $tag->tag }}</option>--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
+                    {{--</div>--}}
                 </div>
                 @if (session('tag_error'))
                     <span class="text-danger">{{ session('tag_error') }}</span>
