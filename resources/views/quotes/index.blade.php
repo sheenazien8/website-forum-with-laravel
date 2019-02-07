@@ -31,10 +31,10 @@
                     </div>
                     <div class="card-footer">
                         <p class="text-primary">
-                            tag:
-                            @foreach ($quote->tags as $tag)
-                                #{{ $tag->tag }}
-                            @endforeach
+                            {{--tag:--}}
+                            {{--@foreach ($quote->tags as $tag)--}}
+                                {{--#{{ $tag->tag }}--}}
+                            {{--@endforeach--}}
                         </p>
                     </div>
                 </div>

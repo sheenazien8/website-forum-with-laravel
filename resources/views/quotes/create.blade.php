@@ -21,8 +21,8 @@
         <br>
         <div id="wrapper">
             <div class="form-group">
-                <label for="">Tag (maksimal 3)</label>
-                <button class="btn btn-default" id="add_tag">Add Tag</button>
+                {{--<label for="">Tag (maksimal 3)</label>--}}
+                {{--<button class="btn btn-default" id="add_tag">Add Tag</button>--}}
                 <div class="col-md-12">
                     {{--<div class="row" id="wrap">--}}
                         {{--<select class="form-control col-md-2 {{ session('tag_error') ? 'is-invalid' : '' }}" name="tags[]" id="tag_select">--}}
